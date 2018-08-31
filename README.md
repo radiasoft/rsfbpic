@@ -1,2 +1,2 @@
 # rsfbpic
-iPython notebooks for modeling wake functions in plasma accelerators for the wakewake project.
+iPython notebooks and data processing tools for modeling wake functions in plasma accelerators using the FBPIC code.
