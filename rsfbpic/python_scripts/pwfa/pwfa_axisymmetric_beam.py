@@ -44,7 +44,7 @@ class MidpointNormalize(colors.Normalize):
         return np.ma.masked_array(np.interp(value, x, y), np.isnan(value))
 
 ####################
-##        
+##
 ## Physical parameters
 ##
 ####################
@@ -82,7 +82,7 @@ trailing_distance = 150.e-6 # meters
 # flag that includes ion motion
 # Set to true, this will create a charge-neutral plasma with equal densities
 # of plasma electrons and singly ionized ions.
-include_ion_motion = False
+include_ion_motion = True
 
 # for now, assume Helium
 ion_mass = 2.*constants.proton_mass + 2.*constants.neutron_mass
@@ -103,21 +103,21 @@ k_p = omega_p/constants.c
 lambda_p = 2.*np.pi/k_p
 
 ####################
-##        
+##
 ## Simulation parameters
 ##
 ####################
 
 ## Number of macroparticles per cell
 
-n_macro_r = 8
-n_macro_z = 8
+n_macro_r = 1
+n_macro_z = 1
 n_macro_t = 1 # this should be 1 if we are not using higher order azimuthal modes
 
 # where to dump the data
 dump_dir = './diags'
 
-# We want to run the simulation just long enough for the fields to form behind the drive bunch, 
+# We want to run the simulation just long enough for the fields to form behind the drive bunch,
 
 # Domain size, include the whole initial bucket and some trailing distance
 domain_length = 3.*lambda_p  # meters
@@ -128,8 +128,8 @@ ramp_start = domain_length
 ramp_length = 5.*drive_sigma_z
 
 # Grid size, resolve the drive bunch
-Delta_z = min([0.01*drive_sigma_z, 0.01*lambda_p])  # meters
-Delta_r = min([0.01*drive_sigma_r, 0.01*lambda_p])  # meters
+Delta_z = min([0.05*drive_sigma_z, 0.05*lambda_p])  # meters
+Delta_r = min([0.05*drive_sigma_r, 0.05*lambda_p])  # meters
 
 # Derived quantities
 Nz = int(np.rint(domain_length/Delta_z))
@@ -146,15 +146,15 @@ Nsteps = int(sim_length/dt)-int(sim_length/dt)%100 + 1
 write_fields = True
 write_particles = True
 # In this context, we only look at the fields at the final step
-dump_period = Nsteps-1 
-        
+dump_period = Nsteps-1
+
 # Moving window
 window_v = constants.c
 
 # n_order specifies the deposition stencil. -1 is global and works in serial, and gets
 # exactly correct dispersion, but cannot run in parallel. A rule of thumb from the
 # fbpic user community is to use 32-cell longitudinal deposition as a trade-off between
-# fidelity and 
+# fidelity and
 n_order = 32 # -1
 
 # create the density function for the plasma, which is uniform
@@ -178,59 +178,59 @@ file_name += str(Nsteps-1).zfill(8)
 file_name += '.h5'
 
 ####################
-##        
+##
 ## Create and run the simulation
 ##
 ## This section shouldn't be changed from simulation to simulation
 ##
-####################  
-        
+####################
+
 # remove old data
 # This means you should probably change dump_dir if you are running a battery of simulations
 if os.path.exists(dump_dir):
     shutil.rmtree(dump_dir)
 
 # Create the simulation
-sim = Simulation(Nz, domain_length, Nr, domain_radius, Nm, dt, 
+sim = Simulation(Nz, domain_length, Nr, domain_radius, Nm, dt,
                  boundaries='open', n_order=n_order)
 # micromanage the particle species by removing the default created species first
 sim.ptcl = []
 
 # add the gaussian drive bunch
 if use_drive_bunch:
-    add_elec_bunch_gaussian( sim, 
-                            sig_r = drive_sigma_r, 
-                            sig_z = drive_sigma_z, 
-                            n_emit=0., 
-                            gamma0=drive_gamma, 
+    add_elec_bunch_gaussian( sim,
+                            sig_r = drive_sigma_r,
+                            sig_z = drive_sigma_z,
+                            n_emit=0.,
+                            gamma0=drive_gamma,
                             sig_gamma=1.,
-                            Q=drive_Q, 
-                            N=drive_N_macro, 
-                            tf=0.0, 
+                            Q=drive_Q,
+                            N=drive_N_macro,
+                            tf=0.0,
                             zf=.75*domain_length, boost=None)
 if use_witness_bunch:
-    add_elec_bunch_gaussian( sim, 
-                            sig_r = witness_sigma_r, 
-                            sig_z = witness_sigma_z, 
-                            n_emit=0., 
-                            gamma0=witness_gamma, 
+    add_elec_bunch_gaussian( sim,
+                            sig_r = witness_sigma_r,
+                            sig_z = witness_sigma_z,
+                            n_emit=0.,
+                            gamma0=witness_gamma,
                             sig_gamma=1.,
-                            Q=witness_Q, 
-                            N=witness_N_macro, 
-                            tf=0.0, 
+                            Q=witness_Q,
+                            N=witness_N_macro,
+                            tf=0.0,
                             zf=.75*domain_length - trailing_distance, boost=None)
 
 # add the plasma electrons
 plasma_electrons = sim.add_new_species(q = -1.*constants.elementary_charge,
                                  m = constants.electron_mass,
-                                 dens_func = dens_func, 
-                                 n = n_plasma, 
+                                 dens_func = dens_func,
+                                 n = n_plasma,
                                  p_nz = n_macro_z, p_nr = n_macro_r, p_nt = n_macro_t)
 if include_ion_motion:
     plasma_ions = sim.add_new_species(q = ion_charge,
                                  m = ion_mass,
-                                 dens_func = dens_func, 
-                                 n = n_plasma, 
+                                 dens_func = dens_func,
+                                 n = n_plasma,
                                  p_nz = n_macro_z, p_nr = n_macro_r, p_nt = n_macro_t)
 
 # Set the moving window
@@ -242,9 +242,6 @@ if write_fields:
 if write_particles:
     sim.diags.append( ParticleDiagnostic( dump_period,
                     {'electrons': sim.ptcl[0]}, sim.comm, write_dir=dump_dir ) )
-    
+
 # run the simulation
 sim.step(Nsteps)
-
-
-
