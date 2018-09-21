@@ -110,8 +110,8 @@ lambda_p = 2.*np.pi/k_p
 
 ## Number of macroparticles per cell
 
-n_macro_r = 1
-n_macro_z = 1
+n_macro_r = 4
+n_macro_z = 4
 n_macro_t = 1 # this should be 1 if we are not using higher order azimuthal modes
 
 # where to dump the data
@@ -155,7 +155,7 @@ window_v = constants.c
 # exactly correct dispersion, but cannot run in parallel. A rule of thumb from the
 # fbpic user community is to use 32-cell longitudinal deposition as a trade-off between
 # fidelity and
-n_order = 32 # -1
+n_order = -1
 
 # create the density function for the plasma, which is uniform
 def dens_func( z, r ) :
@@ -170,12 +170,6 @@ def dens_func( z, r ) :
 
 # Use only the primary azimuthal mode.
 Nm = 1
-
-# figure out the dump file name
-
-file_name = 'data'
-file_name += str(Nsteps-1).zfill(8)
-file_name += '.h5'
 
 ####################
 ##
