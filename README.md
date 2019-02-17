@@ -2,11 +2,11 @@
 
 Jupyter notebooks and data processing tools for modeling wake functions in plasma accelerators using the FBPIC code.
 
-(FBPIC on GitHub)[https://github.com/fbpic]
+[FBPIC on GitHub](https://github.com/fbpic)
 
-(FBPIC documentation)[https://fbpic.github.io/]
+[FBPIC documentation](https://fbpic.github.io/)
 
-(rsFBPIC on GitHub)[https://github.com/radiasoft/rsfbpic]
+[rsFBPIC on GitHub](https://github.com/radiasoft/rsfbpic)
 
 #### License
 
