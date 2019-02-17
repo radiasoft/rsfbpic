@@ -6,6 +6,8 @@ Jupyter notebooks and data processing tools for modeling wake functions in plasm
 
 [FBPIC documentation](https://fbpic.github.io/)
 
+[Instructions for uisng OpenPMD in a Jupyter Notebook](https://github.com/openPMD/openPMD-viewer/blob/master/opmd_viewer/notebook_starter/Template_notebook.ipynb)
+
 [rsFBPIC on GitHub](https://github.com/radiasoft/rsfbpic)
 
 #### License
