@@ -10,6 +10,6 @@ Jupyter notebooks and data processing tools for modeling wake functions in plasm
 
 #### License
 
-License: http://www.apache.org/licenses/LICENSE-2.0.html
+[Apache License, V2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Copyright (c) 2018-2019 RadiaSoft LLC.  All Rights Reserved.
