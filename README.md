@@ -15,10 +15,9 @@ For the [RadiaSoft JupyterHub server](https://jupyter.radiasoft.org), you should
 in the first cell of the template notebook linked above.
 ***
 
-[rsFBPIC on GitHub](https://github.com/radiasoft/rsfbpic)
-
+In case you come across this information somewhere other than GitHub, here is the link for finding [rsFBPIC on GitHub](https://github.com/radiasoft/rsfbpic)
+***
 #### License
-
 [Apache License, V2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Copyright (c) 2018-2019 RadiaSoft LLC.  All Rights Reserved.
