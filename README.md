@@ -9,7 +9,9 @@ Jupyter notebooks and data processing tools for modeling wake functions in plasm
 Here is a [Template notebook](https://github.com/openPMD/openPMD-viewer/blob/master/opmd_viewer/notebook_starter/Template_notebook.ipynb) for using the OpenPMD GUI.
 
 For the [RadiaSoft JupyterHub server](https://jupyter.radiasoft.org), you should specify
+
     %matplotlib widget
+    
 in the first cell.
 ***
 
