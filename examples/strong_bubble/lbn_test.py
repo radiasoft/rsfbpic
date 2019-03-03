@@ -66,9 +66,12 @@ print()
 print("Ez = ", rs_sigfig(Ez*1.e-9,3), " [GV/m]")
 
 rb_max = 2.*rb
-drb_dxi = lbn_wake.calc_drb_dxi_no_beam(rb, rb_max)
+drb_dxi_nb = lbn_wake.calc_drb_dxi_no_beam(rb, rb_max)
 print()
-print("drb_dxi = ", rs_sigfig(drb_dxi,3), " [rad]")
+print("drb_dxi (no beam) = ", rs_sigfig(drb_dxi_nb,3), " [rad]")
 
+Ez_nb = lbn_wake.calc_Ez_on_axis_no_beam(n_pe, rb, rb_max)
+print()
+print("Ez (no beam) = ", rs_sigfig(Ez_nb*1.e-9,3), " [GV/m] (+ or -)")
 
 print()

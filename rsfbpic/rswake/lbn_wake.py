@@ -64,5 +64,5 @@ def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
     drb_dxi = calc_drb_dxi_no_beam(rb, rb_max)
 
     # there is ambiguity in the sign, which needs to be resolved
-    Ez = math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
+    Ez = 2.*math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
     return Ez
