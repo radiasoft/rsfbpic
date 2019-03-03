@@ -74,4 +74,14 @@ Ez_nb = lbn_wake.calc_Ez_on_axis_no_beam(n_pe, rb, rb_max)
 print()
 print("Ez (no beam) = ", rs_sigfig(Ez_nb*1.e-9,3), " [GV/m] (+ or -)")
 
+xi_b = lbn_wake.calc_bubble_half_width(rb_max)
+print()
+print("xi_b = ", rs_sigfig(xi_b*1.e6,3), " [microns]")
+
+xi = 0.3*xi_b
+rb = lbn_wake.calc_local_bubble_radius(xi, rb_max)
+print()
+print("xi = ", rs_sigfig(xi*1.e6,3), " [microns]")
+print("rb = ", rs_sigfig(rb*1.e6,3), " [microns]")
+
 print()
