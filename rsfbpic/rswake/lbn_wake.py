@@ -25,7 +25,7 @@ def calc_Ez_on_axis(n_pe, rb, drb_dxi):
     Returns:
         Ez: longitudinal electric field along the axis
     """
-    Ez = -2.*math.pi*n_pe*math.abs(rsconst.e)*rb*drb_dxi
+    Ez = -2.*math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
     return Ez
 
 def calc_drb_dxi_no_beam(rb, rb_max):
@@ -43,7 +43,7 @@ def calc_drb_dxi_no_beam(rb, rb_max):
         drb_dxi: longitudinal derivative of the bubble radius
     """
     # there is ambiguity in the sign, which needs to be resolved
-    drb_dxi = math.sqrt((pow(rb_max/r_b,4)-1.)/2.)
+    drb_dxi = math.sqrt((pow(rb_max/rb,4)-1.)/2.)
     return drb_dxi
 
 def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
@@ -61,8 +61,8 @@ def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
     Returns:
         Ez: longitudinal electric field along the axis
     """
-    drb_dxi = calc_drb_dxi_no_beam(rb, rb_max):
+    drb_dxi = calc_drb_dxi_no_beam(rb, rb_max)
 
     # there is ambiguity in the sign, which needs to be resolved
-    Ez = math.pi*n_pe*math.abs(rsconst.e)*rb*drb_dxi
+    Ez = math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
     return Ez

@@ -1,7 +1,11 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import math
 import numpy as np
-from rsfbpic import rswake
+
+from rsbeams.rsstats.stats6d import specify_significant_figures as rs_sigfig
 from rsbeams.rsphysics import rsconst
+from rsfbpic.rswake import lbn_wake
 
 # Specify default values of some physical quantities...
 #   These are motivated by upcoming PWFA experiments at FACET II
@@ -51,3 +55,20 @@ wb_tot_q = 0.100e-9           # [C] total charge of 100 pC
 wb_gamma = 100                # relativistic gamma factor
 wb_trail = 0.900 * lambda_pe  # [m] trailing distance behind center of drive beam
 
+# -----------------
+# Excercise some of the methods
+#------------------
+
+rb = 0.4 * lambda_pe
+drb_dxi = 2.73861278753
+Ez = lbn_wake.calc_Ez_on_axis(n_pe, rb, drb_dxi)
+print()
+print("Ez = ", rs_sigfig(Ez*1.e-9,3), " [GV/m]")
+
+rb_max = 2.*rb
+drb_dxi = lbn_wake.calc_drb_dxi_no_beam(rb, rb_max)
+print()
+print("drb_dxi = ", rs_sigfig(drb_dxi,3), " [rad]")
+
+
+print()
