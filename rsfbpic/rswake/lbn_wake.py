@@ -10,18 +10,49 @@ import math
 import numpy as np
 from rsbeams.rsphysics import rsconst
 
+def calc_rb_max(n_pe, beam_tot_z, beam_num_ptcl):
+    """
+    Calculate the maximum radius of the plasma bubble
+
+    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
+    Args:
+        n_pe:           number density of the electron plasma
+        beam_tot_z:     total length of the drive beam
+        beam_num_ptcl:  number of e- in the drive beam
+    Returns:
+        rb_max: maximum radius of the plasma bubble
+    """
+    # from Eq. (12) of LBN2017
+    rb_max = pow(2,7/8.)*pow(beam_num_ptcl/math.pi/n_pe,3/8.)/pow(beam_tot_z,1/8.)
+    return rb_max
+
+def calc_power_beam_plasma(n_pe, rb_max):
+    """
+    Calculate the power transferred from the beam to the plasma bubble
+
+    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
+    Args:
+        n_pe:   number density of the electron plasma
+        rb_max: maximum radius of the plasma bubble
+    Returns:
+        p_beam_plasma: power transferred from beam to plasma bubble
+    """
+    # from Eq. (10) of LBN2017
+    p_beam_plasma = rsconst.c*(0.5*math.pi*n_pe*rsconst.e*rsconst.MKS_factor*rb_max**2)**2
+    return p_beam_plasma
+
+
 def calc_Ez_on_axis(n_pe, rb, drb_dxi):
     """
     Calculate the longitudinal electric field in a plasma bubble.
+
     Valid in "strong bubble regime", where rb_max*k_pe >> 1.
     The calculation is local; it depends on bubble radius and slope.
     The slope of rb is calculated wrt xi, where xi=ct-z
-
     Args:
         n_pe:    number density of the electron plasma
         rb:      the local bubble radius
         drb_dxi: longitudinal derivative of the bubble radius
-
     Returns:
         Ez: longitudinal electric field along the axis
     """
@@ -32,14 +63,13 @@ def calc_Ez_on_axis(n_pe, rb, drb_dxi):
 def calc_drb_dxi_no_beam(rb, rb_max):
     """
     Calculate the longitudinal slope of the local bubble radius.
+
     Valid in "strong bubble regime", where rb_max*k_pe >> 1.
     Valid only in back of bubble, where there is no drive beam.
     The slope of rb is calculated wrt xi, where xi=ct-z
-
     Args:
         rb:     the local bubble radius
         rb_max: maximum value of the bubble radius
-
     Returns:
         drb_dxi: longitudinal derivative of the bubble radius
     """
@@ -51,15 +81,14 @@ def calc_drb_dxi_no_beam(rb, rb_max):
 def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
     """
     Calculate the longitudinal electric field in a plasma bubble.
+
     Valid in "strong bubble regime", where rb_max*k_pe >> 1.
     Valid only in back of bubble, where there is no drive beam.
     The calculation is local; it depends on bubble radius and slope.
-
     Args:
         n_pe:    number density of the electron plasma
         rb:      the local bubble radius
         rb_max: maximum value of the bubble radius
-
     Returns:
         Ez: longitudinal electric field along the axis
     """
@@ -71,14 +100,13 @@ def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
     return Ez
 
 
-def calc_bubble_half_width(rb_max):
+def calc_bubble_halfwidth(rb_max):
     """
-    Calculate the half width of the plasma bubble
-    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
+    Calculate the halfwidth of the plasma bubble
 
+    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
     Args:
         rb_max: maximum value of the bubble radius
-
     Returns:
         rb: the local bubble radius
     """
@@ -90,19 +118,17 @@ def calc_bubble_half_width(rb_max):
 def calc_local_bubble_radius(xi, rb_max):
     """
     Calculate the local bubble radius rb(xi)
+
     Valid in "strong bubble regime", where rb_max*k_pe >> 1.
     xi=ct-z, the distance from the front of the bubble (positive)
-
     Args:
         xi:     distance from front of the bubble
         rb_max: maximum value of the bubble radius
-
     Returns:
         rb: the local bubble radius
     """
-    # half width of the plasma bubble
-    xi_b = calc_bubble_half_width(rb_max)
-    
+    # halfwidth of the plasma bubble
+    xi_b = calc_bubble_halfwidth(rb_max)
 
     # from Eq. (5) of LBN2017
     if xi>=2*xi_b or xi<=0.: rb = 0.
