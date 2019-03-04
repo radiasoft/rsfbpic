@@ -16,7 +16,7 @@ n_pe     = n_pe_cgs * 1.e6   #  [m^-3]
 
 # electron plasma frequency, wavenumber, wavelength
 om_pe     = np.sqrt(n_pe*rsconst.e**2
-                    / (rsconst.m_e*rsconst.epsilon_0) )  # [rad/s]
+            / (rsconst.m_e*rsconst.epsilon_0) )  # [rad/s]
 k_pe      = om_pe/rsconst.c                      # [rad/m]
 lambda_pe = 2.*np.pi/k_pe                        # [m]
 lambda_pe_microns = lambda_pe*1.e6               # [microns]
@@ -134,6 +134,13 @@ print("    Selected location is 'xi=xi_b' (positive):")
 rb = lbn_wake.calc_local_bubble_radius(xi_b, rb_max)
 print("    rb = ", rs_sigfig(rb*1.e6,3), " [microns]")
 print("    rb/rb_max = ", rs_sigfig(rb/rb_max,3), " (should be unity!)")
+
+print()
+print("*******")
+print("Calculate the decelerating E field along the axis...")
+print("    Assumed constant ??, it is along the drive beam:")
+E_decel = lbn_wake.calc_E_decel_along_beam(n_pe, beam_tot_z, beam_num_ptcl)
+print("    E_decel = ", rs_sigfig(E_decel*1.e-9,3), " [GV/m]")
 
 print()
 print("*******")

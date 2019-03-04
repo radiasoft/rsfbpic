@@ -99,7 +99,6 @@ def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
     Ez = -2.*math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
     return Ez
 
-
 def calc_bubble_halfwidth(rb_max):
     """
     Calculate the halfwidth of the plasma bubble
@@ -113,7 +112,6 @@ def calc_bubble_halfwidth(rb_max):
     # from Eq. (4) of LBN2017
     xi_b = 0.847*rb_max
     return xi_b
-
 
 def calc_local_bubble_radius(xi, rb_max):
     """
@@ -134,3 +132,25 @@ def calc_local_bubble_radius(xi, rb_max):
     if xi>=2*xi_b or xi<=0.: rb = 0.
     else: rb = rb_max*math.pow((1.-((xi-xi_b)/xi_b)**2),(1./3.))
     return rb
+
+def calc_E_decel_along_beam(n_pe, beam_tot_z, beam_num_ptcl):
+    """
+    Calculate (constant?) decelerating Ez along the beam (on axis)
+
+    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
+    Args:
+        n_pe:           number density of the electron plasma
+        beam_tot_z:     total length of the drive beam
+        beam_num_ptcl:  number of e- in the drive beam
+    Returns:
+        E_decel: (constant?) Ez along the beam (on axis)
+    """
+    # the following is large, when the calculation is valid
+    strong_check_2 = beam_num_ptcl/n_pe/beam_tot_z**3
+
+    # derived from Eq. (8) of LBN2017
+    E_decel = math.pi * n_pe * beam_tot_z * \
+              np.abs(rsconst.e * rsconst.MKS_factor) * \
+              (math.sqrt(1. + 8. * strong_check_2 / math.pi) - 1.)
+    return E_decel
+
