@@ -5,7 +5,6 @@
 :license: http://www.apache.org/licenses/LICENSE-2.0.html
 """
 # import the usual suspects
-from __future__ import print_function
 import math
 import numpy as np
 from rsbeams.rsphysics import rsconst
@@ -153,4 +152,3 @@ def calc_E_decel_along_beam(n_pe, beam_tot_z, beam_num_ptcl):
               np.abs(rsconst.e * rsconst.MKS_factor) * \
               (math.sqrt(1. + 8. * strong_check_2 / math.pi) - 1.)
     return E_decel
-
