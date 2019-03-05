@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 from rsbeams.rsstats.stats6d import specify_significant_figures as rs_sigfig
 from rsbeams.rsphysics import rsconst
@@ -144,3 +145,11 @@ print("    E_decel = ", rs_sigfig(E_decel*1.e-9,3), " [GV/m]")
 
 print()
 print("*******")
+
+# now we'll create some plots
+
+from rsfbpic.rsplot import lbn_plot
+import matplotlib.pyplot as plt
+
+ez_plot = lbn_plot.plot_Ez_on_axis(n_pe, beam_tot_z, beam_num_ptcl)
+plt.show()
