@@ -151,5 +151,10 @@ print("*******")
 from rsfbpic.rsplot import lbn_plot
 import matplotlib.pyplot as plt
 
+# plot the axial electric field
 ez_plot = lbn_plot.plot_Ez_on_axis(n_pe, beam_tot_z, beam_num_ptcl)
+plt.show()
+
+# plot the bubble radius
+rb_plot = lbn_plot.plot_bubble_radius(n_pe, beam_tot_z, beam_num_ptcl)
 plt.show()

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Plotting curves from 2017 PRAB article by Lebedev, Burov and Nagaitsev
+"""
+Plotting curves from 2017 PRAB article by Lebedev, Burov and Nagaitsev
 
 :copyright: Copyright (c) 2019 Radiasoft LLC. All Rights Reserved.
 :license: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,7 +23,7 @@ def plot_Ez_on_axis(n_pe, beam_tot_z, beam_num_ptcl):
         beam_tot_z:     total length of the drive beam
         beam_num_ptcl:  number of e- in the drive beam
     Returns:
-        ez_axial_plot: plot of axial Ez inside the bubble
+        ax: matplotlib 'Axis' object for Ez inside bubble
     """
 
     # calculate the maximum bubble radius
@@ -59,4 +60,46 @@ def plot_Ez_on_axis(n_pe, beam_tot_z, beam_num_ptcl):
     ax.plot(xi_array, ez_array)
     ax.set_xlabel('xi = ct - z [microns]')
     ax.set_ylabel('(axial) Ez [GV/m]')
+    ax.set_title('PWFA axial Ez in "strong" regime')
+    return ax
+
+def plot_bubble_radius(n_pe, beam_tot_z, beam_num_ptcl):
+    """
+    Plot the plasma bubble radius.
+
+    Valid in "strong bubble regime", where rb_max*k_pe >> 1.
+    Args:
+        n_pe:    number density of the electron plasma
+        beam_tot_z:     total length of the drive beam
+        beam_num_ptcl:  number of e- in the drive beam
+    Returns:
+        ax: matplotlib 'Axis' object for bubble radius plot
+    """
+
+    # calculate the maximum bubble radius
+    rb_max = lbn_wake.calc_rb_max(n_pe, beam_tot_z, beam_num_ptcl)
+
+    # calculate the bubble half width
+    xi_b = lbn_wake.calc_bubble_halfwidth(rb_max)
+
+    # Specify the plot range, xi_min <= xi <= xi_max
+    # xi=ct-z is the distance from the front of the bubble (positive)
+    xi_min = 0.
+    xi_max = 2.*xi_b
+    num_points = 200
+    xi_array = np.linspace(xi_min, xi_max, num=num_points)
+    rb_array = np.zeros(num_points)
+    for iloop in range(0, num_points):
+        rb_array[iloop] = lbn_wake.calc_local_bubble_radius(xi_array[iloop], rb_max)
+
+    # normalize units to microns
+    rb_array *= 1.e6
+    xi_array *= 1.e6
+
+    # generate the plot
+    ax = plt.subplot(111)
+    ax.plot(xi_array, rb_array)
+    ax.set_xlabel('xi = ct - z [microns]')
+    ax.set_ylabel('rb [microns]')
+    ax.set_title('PWFA bubble radius in "strong" regime')
     return ax
