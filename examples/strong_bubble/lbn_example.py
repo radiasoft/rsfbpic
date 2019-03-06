@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from rsbeams.rsstats.stats6d import specify_significant_figures as rs_sigfig
 from rsbeams.rsphysics import rsconst
 from rsfbpic.rswake import lbn_wake
+from rsfbpic.rswake import lbn_plot
 
 # Specify default values of some physical quantities...
 #   These are motivated by upcoming PWFA experiments at FACET II
@@ -146,10 +147,9 @@ print("    E_decel = ", rs_sigfig(E_decel*1.e-9,3), " [GV/m]")
 print()
 print("*******")
 
-# now we'll create some plots
-
-from rsfbpic.rsplot import lbn_plot
-import matplotlib.pyplot as plt
+# -------------------
+# now create some plots
+# -------------------
 
 # plot the axial electric field
 ez_plot = lbn_plot.plot_Ez_on_axis(n_pe, beam_tot_z, beam_num_ptcl)
