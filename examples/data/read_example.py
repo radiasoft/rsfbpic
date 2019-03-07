@@ -2,10 +2,11 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # RadiaSoft imports
-from rsfbpic.rsopenpmd import read_vector_field
+from rsfbpic.rsdata import read_field_hdf
+from rsfbpic.rsdata import read_field_openpmd
 
 # -------------------
-# read some data
+# read data via openPMD
 # -------------------
 
 # read in the longitudinal electric field
@@ -17,8 +18,10 @@ mode_number = 0
 theta_value = 0.
 show_plot = False
 
-ez, info_ez = read_vector_field.read_vector(path_to_data, field_name, f_coord, n_dump, mode_number, theta_value, show_plot)
+ez, info_ez = read_field_openpmd.read_vector(path_to_data, field_name, f_coord, n_dump, mode_number, theta_value, show_plot)
 
+print()
+print("---- using openPMD -----")
 print()
 print("axes = ", info_ez.axes)
 print()
@@ -33,5 +36,28 @@ print()
 print("N_cells_r = ", len(info_ez.r))
 print("N_cells_z = ", len(info_ez.z))
 
+# print()
+# print("Ez[r=0,z] = ", ez[64,:])
+
+
+# -------------------
+# read data via h5py
+# -------------------
+
 print()
-print("Ez[r=0,z] = ", ez[64,:])
+print("---- using h5py -----")
+print()
+
+# read in the longitudinal electric field
+path_to_file = '../../rsfbpic/package_data/data00000280.h5'
+field_name = 'E'
+f_coord = 'z'
+n_dump = 280
+
+ez2 = read_field_hdf.read_vector(path_to_file, field_name, f_coord)
+
+print("length of ez2 = ", len(ez2))
+print("ez2 = ", ez2)
+
+print()
+print()

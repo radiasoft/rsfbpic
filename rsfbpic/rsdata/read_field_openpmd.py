@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Read vector field data from HDF5 file via OpenPMD standard.
+Read field data from HDF5 file via OpenPMD standard.
 
 :copyright: Copyright (c) 2019 Radiasoft LLC. All Rights Reserved.
 :license: http://www.apache.org/licenses/LICENSE-2.0.html
 """
-
-# SciPy imports
-import numpy as np
-import matplotlib.pyplot as plt
 
 # OpenPMD imports
 from opmd_viewer import OpenPMDTimeSeries
