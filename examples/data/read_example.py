@@ -61,3 +61,14 @@ print("ez2 = ", ez2)
 
 print()
 print()
+
+# normalize units to GV/m and microns
+ez_array *= 1.e-9
+xi_array *= 1.e6
+
+# generate the plot
+ax = plt.subplot(111)
+ax.plot(xi_array, ez_array)
+ax.set_xlabel('xi = ct - z [microns]')
+ax.set_ylabel('(axial) Ez [GV/m]')
+ax.set_title('PWFA axial Ez in "strong" regime')
