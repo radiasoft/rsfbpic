@@ -13,7 +13,8 @@ import matplotlib.pyplot as plt
 # OpenPMD imports
 from opmd_viewer import OpenPMDTimeSeries
 
-def read_vector(path_to_data, field_name, f_coord, n_dump):
+def read_vector(path_to_data, field_name, f_coord, n_dump, \
+                mode_number, theta_value, show_plot):
     """
     Read in a field by name from an HDF5 file.
 
@@ -32,5 +33,8 @@ def read_vector(path_to_data, field_name, f_coord, n_dump):
     # read the specified field
     field, info_f = time_series.get_field(iteration=n_dump, \
                                           field=field_name, \
-                                          coord=f_coord)
+                                          coord=f_coord,    \
+                                          m=mode_number,    \
+                                          theta=theta_value,\
+                                          plot=show_plot)
     return field, info_f
