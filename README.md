@@ -6,6 +6,9 @@ Jupyter notebooks and data processing tools for modeling wake functions in plasm
 
 [FBPIC documentation](https://fbpic.github.io/)
 
+[OpenPMD API](https://media.readthedocs.org/pdf/openpmd-api/latest/openpmd-api.pdf)
+
+
 ***
 Here is a [template notebook](https://github.com/openPMD/openPMD-viewer/blob/master/opmd_viewer/notebook_starter/Template_notebook.ipynb) for using the OpenPMD GUI. Use this in the same directory as your FBPIC simulation notebook. That way, you can switch back and forth as needed for the interactive graphics.
 
