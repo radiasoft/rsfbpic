@@ -22,8 +22,6 @@ def read_vector(path_to_file, field_name, field_coord, n_dump_str):
         n_dump_str:   dump number (as a string)
     Returns:
         field:     specified component of the field data
-        sim_time:  time [s] at which data was dumped
-        grid_size: grid spacings dr [m] and dz [m]
    """
     file = h5py.File(path_to_file,'r')
     data = file.get('data/')
@@ -33,10 +31,7 @@ def read_vector(path_to_file, field_name, field_coord, n_dump_str):
     field_h5 = my_field.get(field_coord)
     field = field_h5[0,:,:]
 
-    sim_time = step.attrs["time"] * step.attrs["timeUnitSI"]
-    grid_size = my_field.attrs["gridSpacing"] * my_field.attrs["gridUnitSI"]
-
-    return field, sim_time, grid_size
+    return field
 
 def read_scalar(path_to_file, field_name, n_dump_str):
     """
@@ -50,8 +45,6 @@ def read_scalar(path_to_file, field_name, n_dump_str):
         n_dump_str:   dump number (as a string)
     Returns:
         field:     the requested field data
-        sim_time:  time [s] at which data was dumped
-        grid_size: grid spacings dr [m] and dz [m]
    """
     file = h5py.File(path_to_file,'r')
     data = file.get('data/')
@@ -60,7 +53,49 @@ def read_scalar(path_to_file, field_name, n_dump_str):
     field_h5 = all_fields.get(field_name)
     field = field_h5[0,:,:]
 
-    sim_time = step.attrs["time"] * step.attrs["timeUnitSI"]
-    grid_size = field_h5.attrs["gridSpacing"] * field_h5.attrs["gridUnitSI"]
+    return field
 
-    return field, sim_time, grid_size
+def read_dr_dz(path_to_file, field_name, n_dump_str):
+    """
+    Read grid sizes from an HDF5 file.
+
+    Assume openPMD conventions
+    Assume 2D mesh of values (ie quasi-3D rz)
+    Args:
+        path_to_file: location of a specific HDF5 file
+        field_name:   name of field associated with grid spacing
+        n_dump_str:   dump number (as a string)
+    Returns:
+        dr:   radial grid spacing dr [m]
+        dz:   axial  grid spacing dz [m]
+   """
+    file = h5py.File(path_to_file,'r')
+    data = file.get('data/')
+    step = data.get(n_dump_str)
+    all_fields = step.get('fields')
+    field_h5 = all_fields.get(field_name)
+
+    grid_size = field_h5.attrs["gridSpacing"] * field_h5.attrs["gridUnitSI"]
+    dr = grid_size[0]
+    dz = grid_size[1]
+
+    return dr, dz
+
+def read_time(path_to_file, n_dump_str):
+    """
+    Read simulation time from an HDF5 file.
+
+    Assume openPMD conventions
+    Assume 2D mesh of values (ie quasi-3D rz)
+    Args:
+        path_to_file: location of a specific HDF5 file
+        n_dump_str:   dump number (as a string)
+    Returns:
+        time: time [s] at which data was dumped
+   """
+    file = h5py.File(path_to_file,'r')
+    data = file.get('data/')
+    step = data.get(n_dump_str)
+    time = step.attrs["time"] * step.attrs["timeUnitSI"]
+
+    return time

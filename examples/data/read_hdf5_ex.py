@@ -19,14 +19,16 @@ field_coord = 'z'
 n_dump = 280
 n_dump_str = str(n_dump)
 
-ez, sim_time, grid_size = read_field_hdf.read_vector(path_to_file, field_name, field_coord, n_dump_str)
+time = read_field_hdf.read_time(path_to_file, n_dump_str)
 
-# print("length of er = ", len(er))
-# print("er = ", er)
+dr, dz = read_field_hdf.read_dr_dz(path_to_file, field_name, n_dump_str)
+
+ez = read_field_hdf.read_vector(path_to_file, field_name, field_coord, n_dump_str)
 
 print()
-print("simulation time = ", sim_time, " [s]")
-print("grid size (r,z) = ", grid_size, " [m]")
+print("simulation time = ", time, " [s]")
+print("radial grid sized = ", dr, " [m]")
+print("axial grid sized = ", dz, " [m]")
 
 print()
 print()
