@@ -1,21 +1,29 @@
 # Python imports
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-# RadiaSoft imports
-from rsfbpic.rsdata import read_field_openpmd
+# OpenPMD imports
+from opmd_viewer import OpenPMDTimeSeries
 
 # read in the longitdunal electric field component
 path_to_data = '../../rsfbpic/package_data'
 field_name = 'E'
-f_coord = 'z'
-n_dump = 280
-mode_number = 0
-theta_value = 0.
-show_plot = False
+coord = 'z'
+iteration = 280
+mode = 0
+theta = 0.
+plot = False
 
+# open the file; instantiate "time series" object
+time_series = OpenPMDTimeSeries(path_to_data)
 
-ez, info_ez = read_field_openpmd.read_vector(path_to_data, field_name, f_coord, n_dump, mode_number, theta_value, show_plot)
-
+# read the specified field
+ez, info_ez = time_series.get_field(iteration=iteration, \
+                                    field=field_name, \
+                                    coord=coord, \
+                                    m=mode, \
+                                    theta=theta, \
+                                    plot=plot)
+                
 print()
 print("axes = ", info_ez.axes)
 print()
