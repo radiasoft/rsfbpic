@@ -61,3 +61,8 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Unnecessary file types
+*.mp4
+*.png
+*.pdf
