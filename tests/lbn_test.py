@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 from rsbeams.rsstats.stats6d import specify_significant_figures as rs_sigfig
-from rsbeams.rsphysics import rsconst
+import scipy
 from rsfbpic.rswake import lbn_wake
 
 # Specify values of relevant physical quantities...
@@ -15,9 +15,9 @@ n_pe_cgs = 4.e16             # [cm^-3]
 n_pe     = n_pe_cgs * 1.e6   #  [m^-3]
 
 # electron plasma frequency, wavenumber, wavelength
-om_pe     = np.sqrt(n_pe*rsconst.e**2
-            / (rsconst.m_e*rsconst.epsilon_0) )  # [rad/s]
-k_pe      = om_pe/rsconst.c                      # [rad/m]
+om_pe     = np.sqrt(n_pe*scipy.constants.e**2
+            / (scipy.constants.m_e*scipy.constants.epsilon_0) )  # [rad/s]
+k_pe      = om_pe/scipy.constants.c                      # [rad/m]
 lambda_pe = 2.*np.pi/k_pe                        # [m]
 lambda_pe_microns = lambda_pe*1.e6               # [microns]
 
@@ -35,11 +35,11 @@ beam_tot_z = 4*beam_rms_z  # [m] ad hoc definition of total length
 
 # total charge in the electron drive beam
 beam_tot_q = 3.e-9                           # [C] 3 nC
-beam_num_ptcl = beam_tot_q/np.abs(rsconst.e) # [] # of beam electrons
+beam_num_ptcl = beam_tot_q/np.abs(scipy.constants.e) # [] # of beam electrons
 
 # peak number density of the drive beam
 beam_rms_v = math.pi*beam_rms_z*beam_rms_r**2
-beam_rms_n = beam_tot_q/np.abs(rsconst.e)/beam_rms_v
+beam_rms_n = beam_tot_q/np.abs(scipy.constants.e)/beam_rms_v
 
 # large density ratio is required for blowout regime
 dens_ratio = beam_rms_n/n_pe    # should be >> unity
