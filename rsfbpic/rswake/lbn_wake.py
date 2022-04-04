@@ -7,7 +7,8 @@
 # import the usual suspects
 import math
 import numpy as np
-from rsbeams.rsphysics import rsconst
+import rsmath.const
+import scipy
 
 def calc_rb_max(n_pe, beam_tot_z, beam_num_ptcl):
     """
@@ -37,7 +38,7 @@ def calc_power_beam_plasma(n_pe, rb_max):
         p_beam_plasma: power transferred from beam to plasma bubble
     """
     # from Eq. (10) of LBN2017
-    p_beam_plasma = rsconst.c*(0.5*math.pi*n_pe*rsconst.e*rsconst.MKS_factor*rb_max**2)**2
+    p_beam_plasma = scipy.constants.c*(0.5*math.pi*n_pe*scipy.constants.e*rsmath.const.MKS_factor*rb_max**2)**2
     return p_beam_plasma
 
 
@@ -56,7 +57,7 @@ def calc_Ez_on_axis(n_pe, rb, drb_dxi):
         Ez: longitudinal electric field along the axis
     """
     # from Eq. (2) of LBN2017
-    Ez = -2.*math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
+    Ez = -2.*math.pi*n_pe*np.abs(scipy.constants.e*rsmath.const.MKS_factor)*rb*drb_dxi
     return Ez
 
 def calc_drb_dxi_no_beam(rb, rb_max):
@@ -95,7 +96,7 @@ def calc_Ez_on_axis_no_beam(n_pe, rb, rb_max):
 
     # from Eq. (3) of LBN2017
     # there is ambiguity in the sign, which needs to be resolved
-    Ez = -2.*math.pi*n_pe*np.abs(rsconst.e*rsconst.MKS_factor)*rb*drb_dxi
+    Ez = -2.*math.pi*n_pe*np.abs(scipy.constants.e*rsmath.const.MKS_factor)*rb*drb_dxi
     return Ez
 
 def calc_bubble_halfwidth(rb_max):
@@ -149,6 +150,6 @@ def calc_E_decel_along_beam(n_pe, beam_tot_z, beam_num_ptcl):
 
     # derived from Eq. (8) of LBN2017
     E_decel = math.pi * n_pe * beam_tot_z * \
-              np.abs(rsconst.e * rsconst.MKS_factor) * \
+              np.abs(scipy.constants.e * rsmath.const.MKS_factor) * \
               (math.sqrt(1. + 8. * strong_check_2 / math.pi) - 1.)
     return E_decel
